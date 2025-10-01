@@ -1,6 +1,6 @@
 {
   "nodes": [
-    { "id": "PJ6", "label": "CRIAR (PJ6)", "type": "PJ", "size": 25, "group": "Core" },
+    { "id": "PJ6", "label": "ADVENTURE (PJ6)", "type": "PJ", "size": 25, "group": "Core" },
     { "id": "PF1", "label": "Rodrigo (PF1)", "type": "PF", "size": 20, "group": "Core" },
     { "id": "PF5", "label": "Eduardo (PF5)", "type": "PF", "size": 20, "group": "Core" },
     { "id": "PJ4", "label": "Lidera (PJ4)", "type": "PJ", "size": 18, "group": "Lidera" },
