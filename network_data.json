@@ -1,0 +1,35 @@
+{
+  "nodes": [
+    { "id": "PJ6", "label": "CRIAR (PJ6)", "type": "PJ", "size": 25, "group": "Core" },
+    { "id": "PF1", "label": "Rodrigo (PF1)", "type": "PF", "size": 20, "group": "Core" },
+    { "id": "PF5", "label": "Eduardo (PF5)", "type": "PF", "size": 20, "group": "Core" },
+    { "id": "PJ4", "label": "Lidera (PJ4)", "type": "PJ", "size": 18, "group": "Lidera" },
+    { "id": "PF2", "label": "Bruna (PF2)", "type": "PF", "size": 15, "group": "Family" },
+    { "id": "PJ2", "label": "Young (PJ2)", "type": "PJ", "size": 18, "group": "Young" },
+    { "id": "PF7", "label": "Caroline (PF7)", "type": "PF", "size": 15, "group": "Young" },
+    { "id": "PF10", "label": "Guilherme (PF10)", "type": "PF", "size": 15, "group": "Lidera" },
+    { "id": "PF9", "label": "Charles (PF9)", "type": "PF", "size": 15, "group": "Lidera" },
+    { "id": "PF11", "label": "Dudu (PF11)", "type": "PF", "size": 15, "group": "Tech" },
+    { "id": "PJ7", "label": "Vega (PJ7)", "type": "PJ", "size": 15, "group": "Tech" },
+    { "id": "PF3", "label": "Rose Portal T. (PF3)", "type": "PF", "size": 12, "group": "Peripheral" },
+    { "id": "PJ1", "label": "Rose Portal Adv. (PJ1)", "type": "PJ", "size": 12, "group": "Peripheral" }
+  ],
+  "edges": [
+    { "source": "PF1", "target": "PJ6", "impact": 5, "label": "Sócio/Foco Principal" },
+    { "source": "PF5", "target": "PF1", "impact": 5, "label": "Confiança/Investimento" },
+    { "source": "PF5", "target": "PJ6", "impact": 5, "label": "Investidor Principal" },
+    { "source": "PF1", "target": "PJ4", "impact": 4, "label": "Sócio Estratégico" },
+    { "source": "PJ6", "target": "PJ4", "impact": 4, "label": "Parceria Estratégica" },
+    { "source": "PF1", "target": "PJ2", "impact": 4, "label": "Prestador de Serviço" },
+    { "source": "PF1", "target": "PF2", "impact": 4, "label": "Família/Suporte Otimista" },
+    { "source": "PF7", "target": "PF5", "impact": 4, "label": "Partnership Young" },
+    { "source": "PF10", "target": "PJ4", "impact": 4, "label": "Sócio Operacional" },
+    { "source": "PF9", "target": "PJ4", "impact": 4, "label": "Sócio Operacional" },
+    { "source": "PF11", "target": "PJ6", "impact": "P4", "label": "Potencial IA/Tech" },
+    { "source": "PJ7", "target": "PJ4", "impact": "P3", "label": "Potencial Cliente MKT" },
+    { "source": "PF2", "target": "PJ1", "impact": 3, "label": "Líder de Escritório" },
+    { "source": "PJ1", "target": "PJ4", "impact": 2, "label": "Cliente (<10% Receita)" },
+    { "source": "PF3", "target": "PJ1", "impact": 3, "label": "Sócia Operacional" },
+    { "source": "PF5", "target": "PJ2", "impact": 4, "label": "Sócio Young" }
+  ]
+}
