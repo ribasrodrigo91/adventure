@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Dinâmico de Influência da Rede</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importando D3.js para o grafo de forças dinâmico -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+            padding: 1rem;
+        }
+        .network-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+        #networkSVG {
+            border: 1px solid #e0e0e0;
+            border-radius: 0.75rem;
+            background-color: #ffffff;
+            /* O SVG será redimensionado pelo JS */
+            width: 100%; 
+            height: 600px; 
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .node-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        /* Estilos D3 */
+        .link {
+            stroke-linecap: round;
+        }
+        .node {
+            cursor: grab;
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+        .node-label {
+            pointer-events: none; /* Garante que o clique passe para o círculo */
+            fill: #1f2937;
+            font-size: 10px;
+            font-weight: 600;
+            text-shadow: 0 0 1px white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="network-container">
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Mapa Dinâmico da Sua Rede de Decisões</h1>
+    <p class="text-gray-600 mb-6">Arraste os nós (círculos) para reorganizar o layout e visualizar melhor a estrutura de influência. Edite o bloco de dados JSON abaixo para alterar a rede!</p>
+
+    <!-- SVG para o Grafo de Forças da Rede -->
+    <div class="w-full">
+        <svg id="networkSVG" viewBox="0 0 800 600"></svg>
+    </div>
+
+    <!-- Legenda e Informações -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-4 bg-red-50 border-red-200 border rounded-lg">
+            <h3 class="font-bold text-lg text-red-700 mb-2">Legenda: Fator de Impacto</h3>
+            <div class="space-y-1 text-sm">
+                <div class="legend-item"><div class="w-5 h-1.5 bg-red-600 rounded-full mr-2"></div> **Impacto 5** (Decisão Crítica / Alto Investimento)</div>
+                <div class="legend-item"><div class="w-5 h-1.5 bg-blue-600 rounded-full mr-2"></div> Impacto 4 (Alta Parceria / Suporte Essencial)</div>
+                <div class="legend-item"><div class="w-5 h-1.5 bg-gray-400 rounded-full mr-2"></div> Impacto 2-3 (Suporte Operacional / Baixa Dependência)</div>
+                <div class="legend-item"><div class="w-5 h-1.5 border-2 border-dashed border-green-600 mr-2"></div> **Potencial P:4** (Conexão Futura / IA e Tecnologia)</div>
+            </div>
+        </div>
+
+        <div class="p-4 bg-indigo-50 border-indigo-200 border rounded-lg">
+            <h3 class="font-bold text-lg text-indigo-700 mb-2">Legenda: Tipos de Nó</h3>
+            <div class="space-y-1 text-sm">
+                <div class="legend-item"><div class="node-color bg-indigo-500 ring-2 ring-indigo-300"></div> **Pessoa Física (PF)** | Decisor / Sócio</div>
+                <div class="legend-item"><div class="node-color bg-pink-500 ring-2 ring-pink-300"></div> **Pessoa Jurídica (PJ)** | Entidade / Empresa</div>
+            </div>
+        </div>
+
+        <div class="p-4 bg-yellow-50 border-yellow-200 border rounded-lg">
+            <h3 class="font-bold text-lg text-yellow-700 mb-2">O Eixo Central: CRIAR (PJ6)</h3>
+            <p class="text-sm">O Novo Negócio (**CRIAR**) está no centro. O forte eixo **PF1-PF5-PJ6** (linhas vermelhas) é o motor da rede. Tente arrastar o nó **CRIAR** para ver a dependência dos outros elementos.</p>
+        </div>
+    </div>
+</div>
+
+<!-- BLOCO DE DADOS JSON - Este é o bloco que você edita para alterar a rede. -->
+<script type="application/json" id="network-data">
+{
+  "nodes": [
+    { "id": "PJ6", "label": "CRIAR (PJ6)", "type": "PJ", "size": 25, "group": "Core" },
+    { "id": "PF1", "label": "Rodrigo (PF1)", "type": "PF", "size": 20, "group": "Core" },
+    { "id": "PF5", "label": "Eduardo (PF5)", "type": "PF", "size": 20, "group": "Core" },
+    { "id": "PJ4", "label": "Lidera (PJ4)", "type": "PJ", "size": 18, "group": "Lidera" },
+    { "id": "PF2", "label": "Bruna (PF2)", "type": "PF", "size": 15, "group": "Family" },
+    { "id": "PJ2", "label": "Young (PJ2)", "type": "PJ", "size": 18, "group": "Young" },
+    { "id": "PF7", "label": "Caroline (PF7)", "type": "PF", "size": 15, "group": "Young" },
+    { "id": "PF10", "label": "Guilherme (PF10)", "type": "PF", "size": 15, "group": "Lidera" },
+    { "id": "PF9", "label": "Charles (PF9)", "type": "PF", "size": 15, "group": "Lidera" },
+    { "id": "PF11", "label": "Dudu (PF11)", "type": "PF", "size": 15, "group": "Tech" },
+    { "id": "PJ7", "label": "Vega (PJ7)", "type": "PJ", "size": 15, "group": "Tech" },
+    { "id": "PF3", "label": "Rose Portal T. (PF3)", "type": "PF", "size": 12, "group": "Peripheral" },
+    { "id": "PJ1", "label": "Rose Portal Adv. (PJ1)", "type": "PJ", "size": 12, "group": "Peripheral" }
+  ],
+  "edges": [
+    { "source": "PF1", "target": "PJ6", "impact": 5, "label": "Sócio/Foco Principal" },
+    { "source": "PF5", "target": "PF1", "impact": 5, "label": "Confiança/Investimento" },
+    { "source": "PF5", "target": "PJ6", "impact": 5, "label": "Investidor Principal" },
+    { "source": "PF1", "target": "PJ4", "impact": 4, "label": "Sócio Estratégico" },
+    { "source": "PJ6", "target": "PJ4", "impact": 4, "label": "Parceria Estratégica" },
+    { "source": "PF1", "target": "PJ2", "impact": 4, "label": "Prestador de Serviço" },
+    { "source": "PF1", "target": "PF2", "impact": 4, "label": "Família/Suporte Otimista" },
+    { "source": "PF7", "target": "PF5", "impact": 4, "label": "Partnership Young" },
+    { "source": "PF10", "target": "PJ4", "impact": 4, "label": "Sócio Operacional" },
+    { "source": "PF9", "target": "PJ4", "impact": 4, "label": "Sócio Operacional" },
+    { "source": "PF11", "target": "PJ6", "impact": "P4", "label": "Potencial IA/Tech" },
+    { "source": "PJ7", "target": "PJ4", "impact": "P3", "label": "Potencial Cliente MKT" },
+    { "source": "PF2", "target": "PJ1", "impact": 3, "label": "Líder de Escritório" },
+    { "source": "PJ1", "target": "PJ4", "impact": 2, "label": "Cliente (<10% Receita)" },
+    { "source": "PF3", "target": "PJ1", "impact": 3, "label": "Sócia Operacional" },
+    { "source": "PF5", "target": "PJ2", "impact": 4, "label": "Sócio Young" }
+  ]
+}
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const svg = d3.select("#networkSVG");
+        const svgWidth = 800;
+        const svgHeight = 600;
+
+        // 1. CARREGAR E PARSEAR OS DADOS DO BLOCO JSON EMBUTIDO
+        const dataElement = document.getElementById('network-data');
+        if (!dataElement) {
+            console.error("Bloco de dados JSON não encontrado.");
+            return;
+        }
+        const data = JSON.parse(dataElement.textContent);
+        const nodesData = data.nodes;
+        const edgesData = data.edges;
+
+        // 2. Configuração da Simulação de Forças (D3)
+        const simulation = d3.forceSimulation(nodesData)
+            .force("link", d3.forceLink(edgesData).id(d => d.id).distance(d => {
+                // Distância baseada no impacto: conexões mais fortes ficam mais próximas
+                const impactValue = Number(d.impact) || 1; // Trata 'P4' como 1 temporariamente para cálculo de distância
+                return impactValue === 5 ? 70 : 100;
+            }))
+            .force("charge", d3.forceManyBody().strength(-300)) // Repulsão entre os nós
+            .force("center", d3.forceCenter(svgWidth / 2, svgHeight / 2)); // Centraliza o grafo
+
+        // 3. Desenho das Conexões (Links)
+        const link = svg.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(edgesData)
+            .enter().append("line")
+            .attr("class", "link")
+            .attr("stroke-width", d => {
+                if (d.impact === 5) return 3;
+                if (d.impact === 4) return 2;
+                if (String(d.impact).startsWith('P')) return 2;
+                return 1;
+            })
+            .attr("stroke", d => {
+                if (d.impact === 5) return '#dc2626'; // Red
+                if (d.impact === 4) return '#2563eb'; // Blue
+                if (String(d.impact).startsWith('P')) return '#10b981'; // Green
+                return '#9ca3af'; // Gray
+            })
+            .attr("stroke-dasharray", d => String(d.impact).startsWith('P') ? "5, 5" : null);
+
+        // 4. Desenho dos Nós (Nodes)
+        const node = svg.append("g")
+            .attr("class", "nodes")
+            .selectAll("g")
+            .data(nodesData)
+            .enter().append("g")
+            .call(drag(simulation)); // Adiciona a funcionalidade de arrastar
+
+        // Adiciona os círculos aos nós
+        node.append("circle")
+            .attr("class", "node")
+            .attr("r", d => d.size * 0.7)
+            .attr("fill", d => d.type === 'PF' ? '#6366f1' : '#ec4899') // Indigo (PF) ou Pink (PJ)
+            .attr("stroke", d => d.group === 'Core' ? '#dc2626' : '#fff')
+            .attr("stroke-width", d => d.group === 'Core' ? 3 : 1.5);
+            
+        // Adiciona os rótulos aos nós
+        node.append("text")
+            .attr("class", "node-label")
+            .attr("dy", d => d.size * 0.7 + 12) // Move o texto para baixo do círculo
+            .attr("text-anchor", "middle")
+            .text(d => d.label);
+
+        // 5. Funções de Tique e Interação
+        simulation.on("tick", () => {
+            // Atualiza a posição dos links
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            // Atualiza a posição dos grupos de nó (círculo e texto)
+            node.attr("transform", d => `translate(${d.x},${d.y})`);
+        });
+
+        // 6. Funcionalidade de Arrastar (Drag)
+        function drag(simulation) {
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                // Permite que o nó deslize um pouco após soltar
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+
+            return d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended);
+        }
+    });
+</script>
+
+</body>
+</html>
