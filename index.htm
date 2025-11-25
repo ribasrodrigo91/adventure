@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Comercial | adventure</title>
+    
+    <!-- Google Fonts: Space Grotesk Only (Visual Moderno) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#031445',     // Base Azul Profundo
+                            darkblue: '#020C2B', // Fundo mais escuro
+                            red: '#DA0028',      // A Seta / Ação
+                            graphite: '#131313', // Base Neutra
+                            light: '#F2F2F2',    // Texto Principal (Alto Contraste)
+                            silver: '#A0A0A0'    // Texto Secundário (Médio Contraste)
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Space Grotesk"', 'sans-serif'], // Fonte única para tudo
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)",
+                        'radial-glow': "radial-gradient(circle at center, var(--tw-gradient-stops))",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020C2B; /* Darker Navy base */
+            color: #F2F2F2;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Grid Background Animation */
+        .bg-tech-grid {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, black, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 40%, black 80%, transparent 95%);
+        }
+
+        /* GPS Arrow Floating Animation */
+        @keyframes gps-float {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 5px rgba(218, 0, 40, 0.2)); }
+            50% { transform: translateY(-8px) scale(1.05); filter: drop-shadow(0 0 15px rgba(218, 0, 40, 0.4)); }
+        }
+        .animate-gps {
+            animation: gps-float 4s ease-in-out infinite;
+        }
+
+        /* Modern Glass Effect with Noise */
+        .glass-modern {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-highlight {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Modal Transitions */
+        .modal-overlay {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+        }
+        .modal-content {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020C2B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #DA0028;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden relative">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-40 top-0 left-0 border-b border-white/5 bg-brand-darkblue/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+            <!-- Logo Area -->
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <!-- Símbolo GPS Seta Única -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="transform group-hover:-translate-y-1 transition-transform duration-500">
+                    <path d="M12 2L19 21L12 17L5 21L12 2Z" fill="#DA0028"/>
+                </svg>
+                <div class="font-bold text-2xl tracking-tighter lowercase text-white">
+                    adventure
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="hidden md:flex gap-12 text-sm font-medium tracking-wide text-brand-silver">
+                <a href="#manifesto" class="hover:text-white transition-colors">Manifesto</a>
+                <a href="#metodologia" class="hover:text-white transition-colors">Metodologia</a>
+                <a href="#planos" class="hover:text-white transition-colors">Investimento</a>
+            </div>
+
+            <a href="#contato" class="bg-brand-red hover:bg-red-600 text-white px-8 py-3 text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-[0_0_20px_rgba(218,0,40,0.3)] hover:shadow-[0_0_30px_rgba(218,0,40,0.5)]">
+                Start
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden bg-brand-darkblue">
+        <!-- Tech Grid Background -->
+        <div class="absolute inset-0 bg-grid-pattern bg-tech-grid opacity-30 pointer-events-none"></div>
+        
+        <!-- Radial Gradients -->
+        <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-navy rounded-full blur-[150px] opacity-60 pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-[800px] h-[800px] bg-brand-red/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
+            
+            <!-- GPS Icon Hero (Large) -->
+            <div class="mb-10 animate-gps relative">
+                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Glow effect behind -->
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                    <path d="M12 2L20 22L12 17L4 22L12 2Z" fill="#DA0028" style="filter: drop-shadow(0 0 10px rgba(218,0,40,0.5));"/>
+                </svg>
+            </div>
+
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-red/30 bg-brand-red/10 mb-8 backdrop-blur-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse"></span>
+                <span class="text-brand-red text-[10px] uppercase font-bold tracking-[0.2em]">Confidential Proposal</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-medium uppercase leading-[0.95] tracking-tight mb-8 text-white">
+                Bold Moves.<br>
+                <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-500">Smart Growth.</span>
+            </h1>
+            
+            <p class="max-w-xl mx-auto text-brand-silver text-lg font-light leading-relaxed mb-12">
+                Arquitetura de receita e posicionamento para empresas que não aceitam ser commodities.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6">
+                <a href="#planos" class="px-8 py-4 border border-white/20 hover:border-brand-red hover:bg-brand-red/5 text-white text-sm font-bold uppercase tracking-widest transition-all">
+                    Ver Planos
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-3 opacity-60">
+            <span class="text-[9px] uppercase tracking-[0.3em] text-brand-silver">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-brand-red to-transparent"></div>
+        </div>
+    </header>
+
+    <!-- Manifesto / Intro / History -->
+    <section id="manifesto" class="py-32 bg-[#050f2e] relative border-t border-white/5">
+        <div class="absolute top-0 right-0 w-full h-full bg-grid-pattern opacity-10 pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-20 items-start">
+                
+                <div class="space-y-12">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-light uppercase leading-none text-white mb-8">
+                            A Bússola para <br>
+                            <span class="font-bold text-brand-red">Novos Mercados</span>
+                        </h2>
+                        <p class="text-brand-silver text-lg leading-relaxed font-light mb-6">
+                            Não somos apenas uma consultoria "corporativa". Somos um laboratório de growth com estética de lifestyle. <strong class="text-white font-medium">Adventure</strong> é sobre movimento.
+                        </p>
+                    </div>
+
+                    <div class="pl-6 border-l-2 border-brand-red/30">
+                        <h3 class="text-white text-xl font-bold mb-3 uppercase tracking-tight">A Origem</h3>
+                        <p class="text-brand-silver leading-relaxed font-light">
+                            Nossa história começa dentro de uma <strong class="text-white">Venture Capital</strong>. Um founder com background em Design Gráfico decidiu se aventurar nos dados.
+                        </p>
+                        <p class="text-brand-silver leading-relaxed font-light mt-4">
+                            Ao gerar valor real para uma grande urbanizadora da holding, o capital foi aportado para fundar a Adventure. Nascemos do resultado prático, não da teoria. O design trouxe a visão; o tráfego trouxe a escala.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass-modern p-8 hover:bg-white/5 transition-colors duration-500">
+                        <div class="text-4xl font-bold text-white mb-2 tracking-tighter">+100k</div>
+                        <div class="w-8 h-1 bg-brand-red mb-4"></div>
+                        <div class="text-xs uppercase tracking-widest text-brand-silver">Faturamento Mínimo</div>
+                    </div>
+                    <div class="glass-modern p-8 hover:bg-white/5 transition-colors duration-500">
+                        <div class="text-4xl font-bold text-white mb-2 tracking-tighter">360º</div>
+                        <div class="w-8 h-1 bg-brand-red mb-4"></div>
+                        <div class="text-xs uppercase tracking-widest text-brand-silver">Data & Brand Vision</div>
+                    </div>
+                    
+                    <!-- Ad+Venture Concept Block -->
+                    <div class="glass-modern p-8 col-span-2 hover:bg-white/5 transition-colors duration-500 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-brand-red">
+                                <path d="M12 2L19 21L12 17L5 21L12 2Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="flex items-baseline gap-2 mb-2">
+                             <div class="text-2xl font-bold text-white">Ad<span class="text-brand-silver font-light">+</span>Venture</div>
+                        </div>
+                        <div class="text-xs uppercase tracking-widest text-brand-red font-bold mb-4">Advertising + Venture</div>
+                        <p class="text-sm text-brand-silver font-light leading-relaxed max-w-sm">
+                            A fusão perfeita entre a ousadia de arriscar (Venture) e a segurança da inteligência de dados (Advertising). Arriscamos com o cinto de segurança apertado.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Metodologia -->
+    <section id="metodologia" class="py-32 bg-brand-darkblue relative">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-24 border-b border-white/10 pb-8">
+                <div>
+                    <span class="text-brand-red font-mono text-[10px] tracking-widest uppercase">/// Ecosystem</span>
+                    <h2 class="text-5xl font-light uppercase mt-4 text-white">
+                        Tríade de <br><span class="font-bold">Performance</span>
+                    </h2>
+                </div>
+                <div class="mt-8 md:mt-0">
+                    <p class="text-brand-silver text-sm max-w-xs text-right">
+                        Estrutura completa para escalar operações complexas de serviço e infoproduto.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-px bg-white/10 border border-white/10">
+                <!-- Card 1 -->
+                <div class="bg-[#030d29] p-12 hover:bg-[#051133] transition-colors duration-500 group">
+                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-8 text-brand-red group-hover:scale-110 transition-transform">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">01. Growth & Media</h3>
+                    <p class="text-sm text-brand-silver font-light mb-8 leading-relaxed">
+                        Aquisição de tráfego multicanal. Foco em reduzir CAC e aumentar volume de leads qualificados.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-[#030d29] p-12 hover:bg-[#051133] transition-colors duration-500 group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-brand-red/10 blur-2xl rounded-full -mr-10 -mt-10"></div>
+                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-8 text-brand-red group-hover:scale-110 transition-transform">
+                        <i data-lucide="database" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">02. Data Intelligence</h3>
+                    <p class="text-sm text-brand-silver font-light mb-8 leading-relaxed">
+                        Infraestrutura de rastreamento avançado (API), Dashboards executivos e CRM.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-[#030d29] p-12 hover:bg-[#051133] transition-colors duration-500 group">
+                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-8 text-brand-red group-hover:scale-110 transition-transform">
+                        <i data-lucide="gem" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">03. Brand Strategy</h3>
+                    <p class="text-sm text-brand-silver font-light mb-8 leading-relaxed">
+                        Narrativas de venda, posicionamento premium e diferenciação de mercado.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos (Visual Gráfico) -->
+    <section id="planos" class="py-32 bg-[#020C2B] relative overflow-hidden">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-t from-brand-navy to-transparent pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-24">
+                <h2 class="text-5xl md:text-6xl font-light uppercase text-white tracking-tight">Planos <span class="font-bold text-white">Anuais</span></h2>
+                <p class="text-brand-silver mt-6 font-light">Selecione o nível de infraestrutura ideal.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Plan 1: Essential -->
+                <div class="glass-modern p-10 flex flex-col hover:border-brand-silver/30 transition-all cursor-pointer group" onclick="openModal('essential')">
+                    <div class="text-[10px] uppercase tracking-[0.2em] text-brand-silver mb-4 group-hover:text-white transition-colors">Entry Level</div>
+                    <h3 class="text-4xl font-bold mb-2 text-white">Essencial</h3>
+                    <p class="text-sm text-brand-silver mb-8">Tráfego pago puro & funcional.</p>
+                    
+                    <div class="mt-auto pt-8 border-t border-white/5">
+                        <div class="text-3xl font-bold text-white">R$ 3.500</div>
+                        <div class="text-xs text-brand-silver mt-1">/mês + Ad Budget</div>
+                        <div class="mt-8 flex items-center gap-2 text-xs uppercase tracking-widest text-brand-red font-bold group-hover:underline">
+                            Ver Detalhes <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plan 2: Scale -->
+                <div class="glass-highlight p-10 flex flex-col relative overflow-hidden cursor-pointer group transform hover:-translate-y-2 transition-transform duration-300" onclick="openModal('scale')">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-brand-red/20 blur-2xl rounded-full -mr-12 -mt-12 group-hover:bg-brand-red/30 transition-all"></div>
+                    
+                    <div class="text-[10px] uppercase tracking-[0.2em] text-brand-red mb-4 font-bold">Recommended</div>
+                    <h3 class="text-4xl font-bold mb-2 text-white">Scale</h3>
+                    <p class="text-sm text-brand-silver mb-8">Tráfego + Infraestrutura de Dados.</p>
+                    
+                    <div class="mt-auto pt-8 border-t border-white/10">
+                        <div class="text-3xl font-bold text-white">R$ 7.000</div>
+                        <div class="text-xs text-brand-silver mt-1">/mês + Ad Budget</div>
+                        <div class="mt-8 flex items-center gap-2 text-xs uppercase tracking-widest text-brand-red font-bold group-hover:underline">
+                            Ver Detalhes <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plan 3: Elite -->
+                <div class="bg-white text-brand-graphite p-10 flex flex-col relative cursor-pointer group hover:bg-brand-light transition-colors" onclick="openModal('elite')">
+                     <div class="flex justify-between items-start mb-4">
+                        <div class="text-[10px] uppercase tracking-[0.2em] text-brand-red font-bold">Full Ecosystem</div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L19 21L12 17L5 21L12 2Z" fill="#DA0028"/>
+                        </svg>
+                    </div>
+                    
+                    <h3 class="text-4xl font-bold mb-2 text-brand-graphite">Elite</h3>
+                    <p class="text-sm text-gray-600 mb-8 font-medium">Aceleração com Board Member.</p>
+                    
+                    <div class="mt-auto pt-8 border-t border-gray-200">
+                        <div class="text-3xl font-bold text-brand-graphite">Sob Consulta</div>
+                        <div class="text-xs text-gray-500 mt-1">Análise de Fit Obrigatória</div>
+                        <div class="mt-8 flex items-center gap-2 text-xs uppercase tracking-widest text-brand-red font-bold group-hover:underline">
+                            Ver Detalhes <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contato" class="py-24 bg-brand-darkblue border-t border-white/5 text-center">
+        <div class="max-w-2xl mx-auto px-6">
+            <!-- Footer Logo Image -->
+            <img src="adventure-white.png" alt="adventure logo" class="mx-auto mb-8 h-8 opacity-90">
+
+            <h2 class="text-3xl font-light uppercase text-white mb-8">Inicie o <span class="font-bold">Protocolo</span></h2>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                 <a href="https://wa.me/5551998730488" target="_blank" class="bg-brand-red hover:bg-red-600 text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all">
+                    Falar no WhatsApp
+                </a>
+                <a href="mailto:contato@adventurelabs.com.br" class="border border-white/20 hover:bg-white hover:text-brand-graphite text-white px-10 py-4 text-xs font-bold uppercase tracking-widest transition-all">
+                    Enviar Email
+                </a>
+            </div>
+            <div class="mt-16 text-[10px] text-brand-silver uppercase tracking-widest opacity-50">
+                adventure labs © 2025
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALS (Hidden by default) -->
+    
+    <!-- Modal Backdrop -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-brand-darkblue/90 backdrop-blur-xl z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        
+        <!-- Essential Content -->
+        <div id="modal-essential" class="modal-content hidden max-w-4xl w-full bg-brand-graphite border border-white/10 shadow-2xl overflow-hidden relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-white hover:text-brand-red"><i data-lucide="x" class="w-8 h-8"></i></button>
+            <div class="grid md:grid-cols-2">
+                <div class="p-12 bg-brand-navy/50 border-r border-white/5">
+                    <div class="text-xs uppercase tracking-widest text-brand-silver mb-2">Plano de Entrada</div>
+                    <h2 class="text-4xl font-bold text-white mb-6">Essencial</h2>
+                    <div class="text-3xl font-light text-brand-red mb-8">R$ 3.500<span class="text-sm text-brand-silver ml-2">/mês</span></div>
+                    <p class="text-brand-silver text-sm leading-relaxed mb-8">
+                        Ideal para empresas que precisam profissionalizar sua aquisição de clientes. Saia do botão impulsionar e tenha gestão profissional.
+                    </p>
+                    <a href="https://wa.me/5551998730488" target="_blank" onclick="closeModal()" class="inline-block bg-white text-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-brand-red hover:text-white transition-colors">Contratar Plano</a>
+                </div>
+                <div class="p-12 bg-brand-graphite">
+                    <h3 class="text-sm font-bold uppercase text-white mb-6">O que está incluso:</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check" class="w-4 h-4 text-brand-red mt-1"></i> Gestão de Meta Ads & Google Ads
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check" class="w-4 h-4 text-brand-red mt-1"></i> Setup de Pixel & Conversões (Browser)
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check" class="w-4 h-4 text-brand-red mt-1"></i> Estruturação de Campanhas de Funil
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check" class="w-4 h-4 text-brand-red mt-1"></i> Relatório PDF Mensal
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check" class="w-4 h-4 text-brand-red mt-1"></i> Reunião de Alinhamento Mensal
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scale Content -->
+        <div id="modal-scale" class="modal-content hidden max-w-4xl w-full bg-brand-graphite border border-brand-red/30 shadow-[0_0_50px_rgba(218,0,40,0.1)] overflow-hidden relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-white hover:text-brand-red"><i data-lucide="x" class="w-8 h-8"></i></button>
+            <div class="grid md:grid-cols-2">
+                <div class="p-12 bg-gradient-to-br from-brand-navy to-brand-darkblue border-r border-white/5 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-red/10 blur-3xl rounded-full"></div>
+                    <div class="text-xs uppercase tracking-widest text-brand-red mb-2 font-bold">Best Seller</div>
+                    <h2 class="text-4xl font-bold text-white mb-6">Scale</h2>
+                    <div class="text-3xl font-light text-brand-red mb-8">R$ 7.000<span class="text-sm text-brand-silver ml-2">/mês</span></div>
+                    <p class="text-brand-silver text-sm leading-relaxed mb-8">
+                        A união de tráfego com inteligência de dados. Para quem quer parar de perder vendas por falhas de rastreamento e quer visão de ROI real.
+                    </p>
+                    <a href="https://wa.me/5551998730488" target="_blank" onclick="closeModal()" class="inline-block bg-brand-red text-white px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors">Contratar Plano</a>
+                </div>
+                <div class="p-12 bg-brand-graphite">
+                    <h3 class="text-sm font-bold uppercase text-white mb-6">Tudo do Essencial, mais:</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-brand-red mt-1"></i> <strong>Infraestrutura de Dados (Server-side API)</strong>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-brand-red mt-1"></i> <strong>Dashboard Interativo (Looker/PowerBI)</strong>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-brand-red mt-1"></i> Integração com CRM (HubSpot/RD)
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-brand-silver">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-brand-red mt-1"></i> Reuniões Quinzenais de Otimização
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Elite Content -->
+        <div id="modal-elite" class="modal-content hidden max-w-4xl w-full bg-white text-brand-graphite overflow-hidden relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-brand-graphite hover:text-brand-red"><i data-lucide="x" class="w-8 h-8"></i></button>
+            <div class="grid md:grid-cols-2">
+                <div class="p-12 bg-gray-100 border-r border-gray-200">
+                    <div class="flex items-center gap-2 mb-2">
+                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L19 21L12 17L5 21L12 2Z" fill="#DA0028"/>
+                        </svg>
+                        <div class="text-xs uppercase tracking-widest text-brand-graphite font-bold">Partner Ecosystem</div>
+                    </div>
+                    <h2 class="text-4xl font-bold text-brand-graphite mb-6">Elite</h2>
+                    <div class="text-3xl font-light text-brand-red mb-8">Sob Consulta</div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                        Você não está contratando uma agência, está contratando um CMO e um CTO como serviço. Acesso estratégico ao Founder e consultoria de marca.
+                    </p>
+                    <a href="https://wa.me/5551998730488" target="_blank" onclick="closeModal()" class="inline-block bg-brand-graphite text-white px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-brand-red transition-colors">Agendar Entrevista</a>
+                </div>
+                <div class="p-12 bg-white">
+                    <h3 class="text-sm font-bold uppercase text-brand-graphite mb-6">Full Stack + Founder Access:</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-sm text-gray-600">
+                            <span class="w-1.5 h-1.5 bg-brand-red rounded-full mt-2"></span> <strong>Toda a Infra do Plano Scale</strong>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-600">
+                            <span class="w-1.5 h-1.5 bg-brand-red rounded-full mt-2"></span> Consultoria Trimestral de Posicionamento
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-600">
+                            <span class="w-1.5 h-1.5 bg-brand-red rounded-full mt-2"></span> <strong>Mentoria Mensal "Board Member"</strong>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-600">
+                            <span class="w-1.5 h-1.5 bg-brand-red rounded-full mt-2"></span> Grupo de WhatsApp VIP (Prioridade)
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-600">
+                            <span class="w-1.5 h-1.5 bg-brand-red rounded-full mt-2"></span> Treinamento de Vendas In-Company (Anual)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const backdrop = document.getElementById('modal-backdrop');
+        const modalEssential = document.getElementById('modal-essential');
+        const modalScale = document.getElementById('modal-scale');
+        const modalElite = document.getElementById('modal-elite');
+        const body = document.body;
+
+        function openModal(plan) {
+            // Reset all
+            modalEssential.classList.add('hidden');
+            modalScale.classList.add('hidden');
+            modalElite.classList.add('hidden');
+
+            // Show Backdrop
+            backdrop.classList.remove('hidden');
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+            }, 10);
+            
+            body.classList.add('overflow-hidden'); // Prevent background scrolling
+
+            // Show Specific Modal
+            if (plan === 'essential') modalEssential.classList.remove('hidden');
+            if (plan === 'scale') modalScale.classList.remove('hidden');
+            if (plan === 'elite') modalElite.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            backdrop.classList.add('opacity-0');
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+                modalEssential.classList.add('hidden');
+                modalScale.classList.add('hidden');
+                modalElite.classList.add('hidden');
+                body.classList.remove('overflow-hidden');
+            }, 300);
+        }
+
+        // Close on backdrop click
+        backdrop.addEventListener('click', (e) => {
+            if (e.target === backdrop) closeModal();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
